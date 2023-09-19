@@ -1,6 +1,7 @@
 import Board from "./Board";
+import Calendar from "./Calendar";
 import React, { useState } from "react";
-// import Calendar from "../Calendar/Calendar";
+
 import styled from "styled-components";
 import useLocalStorage from "../hooks/useLocalStroage";
 
@@ -9,7 +10,9 @@ const Main = () => {
 
   return (
     <MainContainer>
-      <MainItem>{/* <Calendar records={records} /> */}</MainItem>
+      <MainItem>
+        <Calendar records={records} />
+      </MainItem>
 
       <MainItem>
         <Board records={records} setRecords={setRecords} />
@@ -29,11 +32,11 @@ const MainContainer = styled.main`
 `;
 const MainItem = styled.div`
   padding: 1rem;
-  > :nth-child(1) {
-    flex-grow: 3;
+  &:first-child {
+    flex: 3;
   }
-  > :nth-child(2) {
-    flex-grow: 1;
+  &:last-child {
+    flex: 1;
     background-color: lightgray;
     border-radius: 0 0 1.6rem 0;
   }

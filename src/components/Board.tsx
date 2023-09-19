@@ -1,8 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
 import AddForm from "./AddForm";
+import List from "./List";
 
-type Record = {
+export type Record = {
   date: string;
   distance: number;
   hour: number;
@@ -10,11 +11,10 @@ type Record = {
   second: number;
   perMin: number;
   perSec: number;
+  id: number;
 };
 type BoardTypes = {
-  //   records: string;
-  //   setRecords: () => void;
-  records: Record[]; // Change this to the appropriate type for your records
+  records: Record[];
   setRecords: React.Dispatch<React.SetStateAction<Record[]>>;
 };
 
@@ -38,9 +38,9 @@ const Board = ({ records, setRecords }: BoardTypes) => {
   //   const handleModal = () => {
   //     setIsOpen(!isOpen);
   //   };
-  //   const onRemove = (id) => {
-  //     setRecords((records) => records.filter((e) => e.id !== id));
-  //   };
+  const onRemove = (id: number) => {
+    setRecords((records) => records.filter((e) => e.id !== id));
+  };
 
   //   const onUpdate = (record) => {
   //     setIsEditing(!isEditing);
@@ -49,16 +49,16 @@ const Board = ({ records, setRecords }: BoardTypes) => {
   //     );
   //   };
 
-  //   const onEdit = (record) => {
-  //     setIsEditing(!isEditing);
-  //     setEditedTask(record);
-  //   };
+  const onEdit = (record: Record) => {
+    setIsEditing(!isEditing);
+    // setEditedTask(record);
+  };
 
   return (
     <BoardContainer>
       <AddBtn onClick={handleOpen}>추가하기</AddBtn>
 
-      {/* <RunningList records={records} onRemove={onRemove} onEdit={onEdit} /> */}
+      <List records={records} onRemove={onRemove} onEdit={onEdit} />
       {isOpen && (
         <AddForm
           onInsert={onInsert}

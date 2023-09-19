@@ -185,20 +185,12 @@
 // export default AddForm;
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Record } from "./Board";
+
 type AddFormTypes = {
   onInsert: (record: Record) => void;
   handleModal: () => void;
   isOpen: boolean;
-};
-
-type Record = {
-  date: string;
-  distance: number;
-  hour: number;
-  minute: number;
-  second: number;
-  perMin: number;
-  perSec: number;
 };
 
 const AddForm: React.FC<AddFormTypes> = ({ onInsert, handleModal, isOpen }) => {
@@ -210,6 +202,7 @@ const AddForm: React.FC<AddFormTypes> = ({ onInsert, handleModal, isOpen }) => {
     second: 0,
     perMin: 0,
     perSec: 0,
+    id: 0,
   });
 
   const handleInputChange = (
@@ -223,9 +216,28 @@ const AddForm: React.FC<AddFormTypes> = ({ onInsert, handleModal, isOpen }) => {
     }));
   };
 
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   onInsert(formData);
+  //   handleModal();
+  // };
+  const generateUniqueId = () => {
+    return Date.now();
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onInsert(formData);
+    const newRecord = {
+      id: generateUniqueId(), // 고유한 ID 생성
+      date: formData.date,
+      distance: formData.distance,
+      hour: formData.hour,
+      minute: formData.minute,
+      second: formData.second,
+      perMin: formData.perMin,
+      perSec: formData.perSec,
+    };
+    onInsert(newRecord);
     handleModal();
   };
 
@@ -252,6 +264,27 @@ const AddForm: React.FC<AddFormTypes> = ({ onInsert, handleModal, isOpen }) => {
               step={0.01}
               required
             />
+          </ItemDiv>
+          <ItemDiv>
+            <label>평균 페이스</label>
+            <div>
+              <input
+                type="number"
+                value={formData.perMin}
+                onChange={(e) => handleInputChange(e, "perMin")}
+                min={0}
+                required
+              />
+              :
+              <input
+                type="number"
+                value={formData.perSec}
+                onChange={(e) => handleInputChange(e, "perSec")}
+                min={0}
+                max={59}
+                required
+              />
+            </div>
           </ItemDiv>
           <ItemDiv>
             <label>시간</label>
@@ -283,27 +316,7 @@ const AddForm: React.FC<AddFormTypes> = ({ onInsert, handleModal, isOpen }) => {
               />
             </div>
           </ItemDiv>
-          <ItemDiv>
-            <label>평균 페이스</label>
-            <div>
-              <input
-                type="number"
-                value={formData.perMin}
-                onChange={(e) => handleInputChange(e, "perMin")}
-                min={0}
-                required
-              />
-              :
-              <input
-                type="number"
-                value={formData.perSec}
-                onChange={(e) => handleInputChange(e, "perSec")}
-                min={0}
-                max={59}
-                required
-              />
-            </div>
-          </ItemDiv>
+
           <BtnDiv>
             <button onClick={handleModal}>닫기</button>
             <button type="submit">제출하기</button>
