@@ -11,20 +11,20 @@ type ItemProps = {
 
 const Item: React.FC<ItemProps> = ({ record, onRemove, onEdit }) => {
   //   const { date, distance, time, pace, id } = record;
-  const { date, distance, hour, minute, perMin, perSec, second } = record;
+  const { date, distance, hour, minute, perMin, perSec, second, id } = record;
   console.log(record);
   return (
     <ItemContainer>
       <ItemWrapper>
         <div className="title_date">{date}</div>
-        {/* <div className="btn_zone">
-          <BtnZone className="edit" onClick={onEdit}>
+        <div className="btn_zone">
+          <BtnZone className="edit" onClick={() => onEdit(record)}>
             <HiOutlinePencilAlt size={20} />
           </BtnZone>
           <BtnZone className="remove" onClick={() => onRemove(id)}>
             <HiOutlineTrash size={20} />
           </BtnZone>
-        </div> */}
+        </div>
       </ItemWrapper>
       <ItemWrapper>
         <div className="memo">

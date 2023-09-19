@@ -1,23 +1,40 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import useInput from "../hooks/useInput";
 import { Record } from "./Board";
+import { ModalContainer, ModalContent, ItemDiv, BtnDiv } from "./AddForm";
 
-type AddFormTypes = {
-  onInsert: (record: Record) => void;
-  handleModal: () => void;
-  isOpen: boolean;
-};
+interface EditFormProps {
+  editedTask: Record | undefined;
+  onUpdate: (record: Record) => void;
+  handleEditClose: () => void;
+}
 
-const AddForm: React.FC<AddFormTypes> = ({ onInsert, handleModal, isOpen }) => {
+const EditForm: React.FC<EditFormProps> = ({
+  editedTask,
+  onUpdate,
+  handleEditClose,
+}) => {
+  const { id, date, distance, hour, minute, second, perMin, perSec } =
+    editedTask || {
+      id: 0,
+      date: "",
+      distance: 0,
+      hour: 0,
+      minute: 0,
+      second: 0,
+      perMin: 0,
+      perSec: 0,
+    };
+
   const [formData, setFormData] = useState<Record>({
-    date: "",
-    distance: 0,
-    hour: 0,
-    minute: 0,
-    second: 0,
-    perMin: 0,
-    perSec: 0,
-    id: 0,
+    id,
+    date,
+    distance,
+    hour,
+    minute,
+    second,
+    perMin,
+    perSec,
   });
 
   const handleInputChange = (
@@ -31,14 +48,10 @@ const AddForm: React.FC<AddFormTypes> = ({ onInsert, handleModal, isOpen }) => {
     }));
   };
 
-  const generateUniqueId = () => {
-    return Date.now();
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newRecord = {
-      id: generateUniqueId(), // 고유한 ID 생성
+      id, // 고유한 ID 생성
       date: formData.date,
       distance: formData.distance,
       hour: formData.hour,
@@ -47,8 +60,8 @@ const AddForm: React.FC<AddFormTypes> = ({ onInsert, handleModal, isOpen }) => {
       perMin: formData.perMin,
       perSec: formData.perSec,
     };
-    onInsert(newRecord);
-    handleModal();
+    onUpdate(newRecord);
+    handleEditClose();
   };
 
   return (
@@ -128,7 +141,7 @@ const AddForm: React.FC<AddFormTypes> = ({ onInsert, handleModal, isOpen }) => {
           </ItemDiv>
 
           <BtnDiv>
-            <button onClick={handleModal}>닫기</button>
+            <button onClick={handleEditClose}>닫기</button>
             <button type="submit">제출하기</button>
           </BtnDiv>
         </form>
@@ -136,62 +149,5 @@ const AddForm: React.FC<AddFormTypes> = ({ onInsert, handleModal, isOpen }) => {
     </ModalContainer>
   );
 };
-export const ModalContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.548);
-  z-index: 1000;
-  overflow: auto;
-`;
 
-export const ModalContent = styled.div`
-  background-color: white;
-  margin: 20px auto;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 400px;
-  min-width: 300px;
-`;
-export const ItemDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 0.3rem 0;
-  > :first-child {
-    width: 30%;
-  }
-  > :last-child {
-    width: 70%;
-    display: flex;
-    justify-content: end;
-  }
-  input[type="number"] {
-    width: 3.5rem;
-  }
-`;
-export const BtnDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-  > button {
-    background-color: #375142; //#73a486;
-    color: white;
-    padding: 0.5rem 1rem;
-    font-weight: 500;
-    text-align: center;
-    border-radius: 0.8rem;
-    width: fit-content;
-    border: none;
-    box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
-    &:hover {
-      background-color: lightgray;
-      color: #375142;
-    }
-  }
-`;
-export default AddForm;
+export default EditForm;
