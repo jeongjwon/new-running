@@ -27,7 +27,6 @@ const MainContainer = styled.main`
   border: 0.3rem solid #2e2e2e;
   border-radius: 0 0 2rem 2rem;
   border-top: none;
-  /* overflow-y: hidden; */
   box-sizing: border-box;
 `;
 const MainItem = styled.div`
