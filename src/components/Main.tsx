@@ -1,19 +1,18 @@
-// import Board from "../Board/Board";
+import Board from "./Board";
 import React, { useState } from "react";
 // import Calendar from "../Calendar/Calendar";
 import styled from "styled-components";
-
-// import useLocalStorage from "../../hooks/useLocalStorage";
+import useLocalStorage from "../hooks/useLocalStroage";
 
 const Main = () => {
-  //   const [records, setRecords] = useLocalStorage("records", []);
+  const [records, setRecords] = useLocalStorage("records", []);
 
   return (
     <MainContainer>
       <MainItem>{/* <Calendar records={records} /> */}</MainItem>
 
       <MainItem>
-        {/* <Board records={records} setRecords={setRecords} /> */}
+        <Board records={records} setRecords={setRecords} />
       </MainItem>
     </MainContainer>
   );
@@ -30,10 +29,10 @@ const MainContainer = styled.main`
 `;
 const MainItem = styled.div`
   padding: 1rem;
-  :nth-child(1) {
+  > :nth-child(1) {
     flex-grow: 3;
   }
-  :nth-child(2) {
+  > :nth-child(2) {
     flex-grow: 1;
     background-color: lightgray;
     border-radius: 0 0 1.6rem 0;
